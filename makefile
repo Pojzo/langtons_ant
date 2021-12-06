@@ -30,3 +30,9 @@ clean:
 
 run: 
 	./bin/main
+
+valgrind:
+	valgrind ./bin/main
+	
+valgrindpp:
+	valgrind -s --track-origins=yes ./bin/main
