@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "ant.h"
 
-
 // constructor for ant
 ant_t *ant_create(grid_t *grid) {
     if (grid == NULL) {
@@ -83,19 +82,24 @@ static int handle_quit() {
     return 0;
 }
 
+// update screen and handle quitting
+static void update(SDL_Renderer *renderer, ant_t *ant) {
+    grid_draw(renderer, ant->grid);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(500);
+    if (handle_quit()) {
+        printf("Terminating program\n");
+        return;
+    }
+}
+
+// run simulation of langtons ant
 static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations) {
     for (int i = 0; i < iterations; i++) {
         printf("Iterations: %d\n", i);
         refresh_screen(renderer);
-        grid_draw(renderer, ant->grid);
-        SDL_RenderPresent(renderer);
-        SDL_Delay(500);
-        if (handle_quit()) {
-            printf("Terminating program\n");
-            return;
-        }
+        update(renderer, ant);
     }
-
 }
 
 // initialize window and renderer and run simulation for given number of iterations
