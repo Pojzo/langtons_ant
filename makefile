@@ -35,4 +35,4 @@ valgrind:
 	valgrind ./bin/main
 	
 valgrindpp:
-	valgrind -s --track-origins=yes ./bin/main
+	valgrind -s --track-origins=yes --leak-check=full ./bin/main
