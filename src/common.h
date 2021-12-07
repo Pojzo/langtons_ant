@@ -4,5 +4,6 @@
 #include "SDL2/SDL.h"
 #include "config.h"
 #include "assert.h"
+#include "grid.h"
 
 #endif
