@@ -10,4 +10,5 @@ typedef struct Ant {
 
 ant_t *ant_create(grid_t *grid);
 void ant_free(ant_t *ant);
+void run_simulation(ant_t *ant, int iterations);
 #endif

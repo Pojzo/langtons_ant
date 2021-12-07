@@ -60,6 +60,9 @@ grid_t *grid_create(unsigned w_, unsigned h_) {
 
 // free grid structure from memory
 void grid_free(grid_t *grid) {
+    if (grid == NULL) {
+        return;
+    }
     free(grid->state); 
     grid->state = NULL;
 
