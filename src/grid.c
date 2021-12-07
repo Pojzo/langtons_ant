@@ -85,6 +85,16 @@ static unsigned grid_get(const grid_t *grid, unsigned x, unsigned y) {
     return grid->state[x * grid->h + y];
 }
 
+static unsigned grid_get_index(const grid_t *grid, unsigned x, unsigned y) {
+    if (!grid_initialized(grid)) {
+        grid_null_error();
+        return INT_MAX;
+    }
+    return x * grid->h + y;
+}
+
+
+
 // print grid to stdout
 void grid_print(const grid_t *grid) {
     if (!grid_initialized(grid)) {
@@ -108,8 +118,25 @@ static SDL_Rect rect_create(unsigned x_tiles, unsigned y_tiles) {
     return r;
 }
 
+// swap color at index x, y
+void grid_swap_color(grid_t *grid, unsigned x, unsigned y) {
+    if (!grid_initialized(grid)) {
+        grid_null_error();
+        return;
+    }
+    printf("%d %d\n", x, y);
+    int index = grid_get_index(grid, x, y);
+    if (index == INT_MAX) {
+        fprintf(stderr, "[ERROR] Invalid indeces to swap color\n");
+        return;
+    }
+    // swap between zero and one
+    printf("%d\n", index);
+    grid->state[index] = 1 - grid->state[index];
+}
+
 // draw grid to SDL_Renderer
-void grid_draw(SDL_Renderer *renderer, const grid_t *grid) {
+void grid_draw(SDL_Renderer *renderer, grid_t *grid) {
     srand(time(NULL));
     if (!grid_initialized(grid)) {
         grid_null_error();
@@ -119,11 +146,12 @@ void grid_draw(SDL_Renderer *renderer, const grid_t *grid) {
     for (unsigned i = 0; i < grid->w; i++) {
         for (unsigned j = 0; j < grid->h; j++) {
             if (grid_get(grid, i, j) == 0) {
-                // SDL_SetRenderDrawColor(renderer, BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
-                SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, rand() % 255);
+                SDL_SetRenderDrawColor(renderer, BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
+                // SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, rand() % 255);
                 SDL_RenderFillRect(renderer, &r);
             }
             else {
+                printf("Som tunajc\n");
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
                 SDL_RenderFillRect(renderer, &r);
             }
