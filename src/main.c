@@ -9,7 +9,8 @@ int handle_quit();
 void free_all(SDL_Window *window, SDL_Renderer *renderer, grid_t *grid);
 
 int main() {
-    grid_t *grid = grid_create(5, 5);
+    SDL_Init(SDL_INIT_EVERYTHING);
+    grid_t *grid = grid_create(10, 10);
     grid_print(grid);
 
     SDL_Window *window = NULL;
@@ -28,6 +29,7 @@ int main() {
     }
     for (int i = 0; i < 10; i++) {
         refresh_screen(renderer);
+        grid_draw(renderer, grid);
         SDL_RenderPresent(renderer);
         SDL_Delay(500);
         if (handle_quit()) {
@@ -86,8 +88,8 @@ int handle_quit() {
 }
 
 void free_all(SDL_Window *window, SDL_Renderer *renderer, grid_t *grid) {
-    SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     grid_free(grid);
     SDL_Quit();
 }
