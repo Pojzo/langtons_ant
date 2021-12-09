@@ -80,7 +80,7 @@ static void grid_assert(const grid_t *grid) {
 */
 
 // return value at x and y coordinate 
-static unsigned grid_get(const grid_t *grid, unsigned x, unsigned y) {
+unsigned grid_get(const grid_t *grid, unsigned x, unsigned y) {
     if (!grid_initialized(grid)) {
         grid_null_error();
         return INT_MAX;
@@ -88,7 +88,7 @@ static unsigned grid_get(const grid_t *grid, unsigned x, unsigned y) {
     return grid->state[x * grid->h + y];
 }
 
-static unsigned grid_get_index(const grid_t *grid, unsigned x, unsigned y) {
+unsigned grid_get_index(const grid_t *grid, unsigned x, unsigned y) {
     if (!grid_initialized(grid)) {
         grid_null_error();
         return INT_MAX;
@@ -121,8 +121,8 @@ static SDL_Rect rect_create(unsigned x_tiles, unsigned y_tiles) {
     return r;
 }
 
-// swap color at index x, y
-void grid_swap_color(grid_t *grid, unsigned x, unsigned y) {
+// flip color at index x, y
+void grid_flip_color(grid_t *grid, unsigned x, unsigned y) {
     if (!grid_initialized(grid)) {
         grid_null_error();
         return;
