@@ -6,6 +6,7 @@
 typedef struct Ant {
     unsigned pos_x;
     unsigned pos_y;
+    unsigned transformation;
     pair_t *direction;
     grid_t *grid;
 } ant_t;

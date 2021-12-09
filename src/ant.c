@@ -3,6 +3,8 @@
 #include "pair.h"
 
 static int QUIT = 0;
+static const int transformations_x[] = {0, 1, 0, -1};
+static const int transformations_y[] = {-1, 0, 1, 0};
 
 // constructor for ant
 ant_t *ant_create(grid_t *grid) {
@@ -22,7 +24,8 @@ ant_t *ant_create(grid_t *grid) {
     ant->pos_x = grid->w / 2;
     ant->pos_y = grid->h / 2;
 
-    pair_t *direction = pair_create(DIRECTION_X, DIRECTION_Y);
+    ant->transformation = 0;
+    pair_t *direction = pair_create(transformations_x[ant->transformation], transformations_y[ant->transformation]);
     if (direction == NULL) {
         return NULL;
     }
@@ -78,6 +81,69 @@ static void refresh_screen(SDL_Renderer *renderer) {
     SDL_RenderClear(renderer);
 }
 
+// rotate ant by 90 degrees to the left
+static void ant_turn_right(ant_t *ant) {
+    if (ant == NULL || ant->direction == NULL) {
+        fprintf(stderr, "[ERROR] Ant not initalized\n");
+        return;
+    }
+    // if we're on the final transformation, return to the first one
+    if (ant->transformation == 3) {
+        ant->transformation = 0;
+    }
+    else {
+        ant->transformation++; 
+    }
+
+    int new_x = transformations_x[ant->transformation];
+    int new_y = transformations_y[ant->transformation];
+
+    pair_update(ant->direction, new_x, new_y);
+}
+
+static void ant_turn_left(ant_t *ant) {
+    if (ant == NULL || ant->direction == NULL) {
+        fprintf(stderr, "[ERROR] Ant not initalized\n");
+        return;
+    }
+    // if we're on the first transforation, return to the last one
+    if (ant->transformation == 0) {
+        ant->transformation = 3;
+    }
+    else {
+        ant->transformation--;
+    }
+
+    int new_x = transformations_x[ant->transformation];
+    int new_y = transformations_y[ant->transformation];
+
+    pair_update(ant->direction, new_x, new_y);
+}
+
+void ant_move_forward(ant_t *ant) {
+    if (ant == NULL || ant->direction == NULL) {
+        fprintf(stderr, "[ERROR] Ant not initalized\n");
+        return;
+    }
+    int new_x = ant->pos_x + ant->direction->first;
+    int new_y = ant->pos_y + ant->direction->second;
+    printf("%d %d\n", ant->direction->first, ant->direction->second);
+    
+    // printf("New_x: %d, New_y: %d\n", new_x, new_y);
+    if (new_x < 0 || new_x > (int) ant->grid->h - 1) {
+        QUIT = 1;
+        return;
+    }
+
+    if (new_y < 0 || new_y > (int) ant->grid->h - 1) {
+        QUIT = 1;
+        return;
+    }
+    ant->pos_x = new_x;
+    ant->pos_y = new_y;
+}
+
+
 static void free_all(SDL_Window *window, SDL_Renderer *renderer, ant_t *ant) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -99,10 +165,12 @@ static int handle_quit() {
 
 // update screen and handle quitting
 static void update(SDL_Renderer *renderer, ant_t *ant) {
+    int delay = 100;
     grid_draw(renderer, ant->grid); // draw grid 
     SDL_RenderPresent(renderer); // render grid
-    SDL_Delay(500); // wait for 500 miliseconds, before continuing to next frame
+    SDL_Delay(delay); // wait for 500 miliseconds, before continuing to next frame
     if (handle_quit()) { // check if user pressed quit button
+        delay = 1000000;
         QUIT = 1;
         printf("Terminating program\n");
         return;
@@ -112,7 +180,15 @@ static void update(SDL_Renderer *renderer, ant_t *ant) {
 // run simulation of langtons ant
 static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations) {
     for (int i = 0; i < iterations && !QUIT; i++) {
-        printf("Iterations: %d\n", i);
+        if (grid_get(ant->grid, ant->pos_x, ant->pos_y) == 0) {
+            ant_turn_left(ant); 
+        }
+        else {
+            ant_turn_right(ant);
+        }
+        grid_flip_color(ant->grid, ant->pos_x, ant->pos_y);
+        ant_move_forward(ant);
+
         refresh_screen(renderer);
         update(renderer, ant);
     }
@@ -141,5 +217,3 @@ void run_simulation(ant_t *ant, int iterations) {
     // free everything from memory
     free_all(window, renderer, ant);
 }
-
-
