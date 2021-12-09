@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include "ant.h"
+#include "pair.h"
+
+static int QUIT = 0;
 
 // constructor for ant
 ant_t *ant_create(grid_t *grid) {
+    // check if grid is properly initialized
     if (grid == NULL) {
         fprintf(stderr, "[ERROR] Failed to create ant, grid is NULL\n");
         return NULL;
     }
     ant_t *ant = (ant_t *) malloc(sizeof(ant_t));
+    // check if malloc failed
     if (ant == NULL) {
         fprintf(stderr, "[ERROR] Failed to allocate space for ant\n");
         return NULL;
@@ -17,16 +22,26 @@ ant_t *ant_create(grid_t *grid) {
     ant->pos_x = grid->w / 2;
     ant->pos_y = grid->h / 2;
 
+    pair_t *direction = pair_create(DIRECTION_X, DIRECTION_Y);
+    if (direction == NULL) {
+        return NULL;
+    }
+
     ant->grid = grid;
+    ant->direction = direction;
 
     return ant;
 }
 
 // free ant from memory
 void ant_free(ant_t *ant) {
-    grid_free(ant->grid);
+    grid_free(ant->grid); // free grid
     ant->grid = NULL;
-    free(ant);
+
+    pair_free(ant->direction); // free direction
+    ant->direction = NULL;
+
+    free(ant); // free ant
     ant = NULL;
 }
 
@@ -84,10 +99,11 @@ static int handle_quit() {
 
 // update screen and handle quitting
 static void update(SDL_Renderer *renderer, ant_t *ant) {
-    grid_draw(renderer, ant->grid);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(500);
-    if (handle_quit()) {
+    grid_draw(renderer, ant->grid); // draw grid 
+    SDL_RenderPresent(renderer); // render grid
+    SDL_Delay(500); // wait for 500 miliseconds, before continuing to next frame
+    if (handle_quit()) { // check if user pressed quit button
+        QUIT = 1;
         printf("Terminating program\n");
         return;
     }
@@ -95,7 +111,7 @@ static void update(SDL_Renderer *renderer, ant_t *ant) {
 
 // run simulation of langtons ant
 static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations) {
-    for (int i = 0; i < iterations; i++) {
+    for (int i = 0; i < iterations && !QUIT; i++) {
         printf("Iterations: %d\n", i);
         refresh_screen(renderer);
         update(renderer, ant);
@@ -104,21 +120,25 @@ static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations) {
 
 // initialize window and renderer and run simulation for given number of iterations
 void run_simulation(ant_t *ant, int iterations) {
-    SDL_Window *window = NULL;
+    SDL_Window *window = NULL; 
     SDL_Renderer *renderer = NULL;
-    window = init_window();
-    if (window == NULL) {
+
+    window = init_window(); // initialize SDL_Window
+    if (window == NULL) { // check if window initialization failed
         fprintf(stderr, "[ERROR] Could not initialize window\n");
         free_all(window, renderer, ant);
         return;
     }
-    renderer = init_renderer(window);
-    if (renderer == NULL) {
+    renderer = init_renderer(window); // initialized SDL_Renderer
+    if (renderer == NULL) { // check if renderer initialization failed
         fprintf(stderr, "[ERROR] Could not initialize renderer\n");
         free_all(window, renderer, ant);
         return;
     }
+    // run simulation for given number of iterations
     simulate(renderer, ant, iterations);
+
+    // free everything from memory
     free_all(window, renderer, ant);
 }
 

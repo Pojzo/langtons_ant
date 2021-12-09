@@ -149,12 +149,12 @@ void grid_draw(SDL_Renderer *renderer, grid_t *grid) {
     for (unsigned i = 0; i < grid->w; i++) {
         for (unsigned j = 0; j < grid->h; j++) {
             if (grid_get(grid, i, j) == 0) {
-                SDL_SetRenderDrawColor(renderer, BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
-                // SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, rand() % 255);
-                SDL_RenderFillRect(renderer, &r);
+                // SDL_SetRenderDrawColor(renderer, BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
+                SDL_SetRenderDrawColor(renderer, BORDER_R, BORDER_G, BORDER_B, BORDER_A);
+                //SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, rand() % 255);
+                SDL_RenderDrawRect(renderer, &r);
             }
             else {
-                printf("Som tunajc\n");
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
                 SDL_RenderFillRect(renderer, &r);
             }
