@@ -20,3 +20,6 @@ static const unsigned char FILL_R = 255;
 static const unsigned char FILL_G = 255;
 static const unsigned char FILL_B = 255;
 static const unsigned char FILL_A = 200;
+
+static const int DIRECTION_X = 1;
+static const int DIRECTION_Y = 1;
