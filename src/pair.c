@@ -20,3 +20,9 @@ void pair_free(pair_t *pair) {
     free(pair);
     pair = NULL;
 }
+
+// update values of pair
+void pair_update(pair_t *pair, int first_, int second_) {
+    pair->first = first_;
+    pair->second = second_;
+}

@@ -8,5 +8,6 @@ typedef struct Pair {
 
 pair_t *pair_create(int first_, int second_);
 void pair_free(pair_t *pair);
+void pair_update(pair_t *pair, int first_, int second_);
 
 #endif
