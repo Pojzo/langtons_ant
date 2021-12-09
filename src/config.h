@@ -23,3 +23,6 @@ static const unsigned char FILL_A = 200;
 
 static const int DIRECTION_X = 1;
 static const int DIRECTION_Y = 1;
+
+
+static const float DELAY = 50;
