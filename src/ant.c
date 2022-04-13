@@ -127,7 +127,7 @@ void ant_move_forward(ant_t *ant) {
     }
     int new_x = ant->pos_x + ant->direction->first;
     int new_y = ant->pos_y + ant->direction->second;
-    printf("%d %d\n", ant->direction->first, ant->direction->second);
+    // printf("%d %d\n", ant->direction->first, ant->direction->second);
     
     // printf("New_x: %d, New_y: %d\n", new_x, new_y);
     if (new_x < 0 || new_x > (int) ant->grid->h - 1) {
@@ -165,7 +165,7 @@ static int handle_quit() {
 
 // update screen and handle quitting
 static void update(SDL_Renderer *renderer, ant_t *ant) {
-    int delay = 100;
+    int delay = 10;
     grid_draw(renderer, ant->grid); // draw grid 
     SDL_RenderPresent(renderer); // render grid
     SDL_Delay(delay); // wait for 500 miliseconds, before continuing to next frame

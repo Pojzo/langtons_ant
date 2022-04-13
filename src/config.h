@@ -1,8 +1,8 @@
 static const char WINDOW_NAME[] = "Langtons ant";
 static const unsigned int SCREEN_WIDTH = 640;
 static const unsigned int SCREEN_HEIGHT = 640;
-static const unsigned int MAX_GRID_WIDTH = 100;
-static const unsigned int MAX_GRID_HEIGHT = 100;
+static const unsigned int MAX_GRID_WIDTH = 640;
+static const unsigned int MAX_GRID_HEIGHT = 640;
 static const unsigned int GRID_WIDTH = 40;
 static const unsigned int GRID_HEIGHT = 40;
 

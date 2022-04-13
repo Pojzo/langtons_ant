@@ -127,14 +127,14 @@ void grid_flip_color(grid_t *grid, unsigned x, unsigned y) {
         grid_null_error();
         return;
     }
-    printf("%d %d\n", x, y);
+    // printf("%d %d\n", x, y);
     int index = grid_get_index(grid, x, y);
     if (index == INT_MAX) {
         fprintf(stderr, "[ERROR] Invalid indeces to swap color\n");
         return;
     }
     // swap between zero and one
-    printf("%d\n", index);
+    // printf("%d\n", index);
     grid->state[index] = 1 - grid->state[index];
 }
 
