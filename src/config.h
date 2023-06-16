@@ -1,6 +1,10 @@
 extern const char WINDOW_NAME[];
-extern const unsigned int SCREEN_WIDTH;
-extern const unsigned int SCREEN_HEIGHT;
+extern const unsigned int DEFAULT_SCREEN_WIDTH;
+extern const unsigned int DEFAULT_SCREEN_HEIGHT;
+
+extern unsigned int SCREEN_WIDTH;
+extern unsigned int SCREEN_HEIGHT;
+
 extern const unsigned int MAX_GRID_WIDTH;
 extern const unsigned int MAX_GRID_HEIGHT;
 extern const unsigned int DEFAULT_GRID_WIDTH;

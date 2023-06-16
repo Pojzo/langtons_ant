@@ -1,8 +1,12 @@
 #include "config.h"
 
 const char WINDOW_NAME[] = "Langtons ant";
-const unsigned int SCREEN_WIDTH = 640;
-const unsigned int SCREEN_HEIGHT = 640;
+const unsigned int DEFAULT_SCREEN_WIDTH = 640;
+const unsigned int DEFAULT_SCREEN_HEIGHT = 640;
+
+unsigned int SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
+unsigned int SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+
 const unsigned int MAX_GRID_WIDTH = 640;
 const unsigned int MAX_GRID_HEIGHT = 640;
 const unsigned int DEFAULT_GRID_WIDTH = 40;
