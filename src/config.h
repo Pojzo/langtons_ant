@@ -1,28 +1,27 @@
-static const char WINDOW_NAME[] = "Langtons ant";
-static const unsigned int SCREEN_WIDTH = 640;
-static const unsigned int SCREEN_HEIGHT = 640;
-static const unsigned int MAX_GRID_WIDTH = 640;
-static const unsigned int MAX_GRID_HEIGHT = 640;
-static const unsigned int GRID_WIDTH = 40;
-static const unsigned int GRID_HEIGHT = 40;
+extern const char WINDOW_NAME[];
+extern const unsigned int SCREEN_WIDTH;
+extern const unsigned int SCREEN_HEIGHT;
+extern const unsigned int MAX_GRID_WIDTH;
+extern const unsigned int MAX_GRID_HEIGHT;
+extern const unsigned int DEFAULT_GRID_WIDTH;
+extern const unsigned int DEFAULT_GRID_HEIGHT;
 
-static const unsigned char BACKGROUND_R = 255;
-static const unsigned char BACKGROUND_G = 255;
-static const unsigned char BACKGROUND_B = 255;
-static const unsigned char BACKGROUND_A = 255;
+extern const unsigned char BACKGROUND_R;
+extern const unsigned char BACKGROUND_G;
+extern const unsigned char BACKGROUND_B;
+extern const unsigned char BACKGROUND_A;
 
-static const unsigned char BORDER_R = 0;
-static const unsigned char BORDER_G = 0;
-static const unsigned char BORDER_B = 0;
-static const unsigned char BORDER_A = 50;
+extern const unsigned char BORDER_R;
+extern const unsigned char BORDER_G;
+extern const unsigned char BORDER_B;
+extern const unsigned char BORDER_A;
 
-static const unsigned char FILL_R = 255;
-static const unsigned char FILL_G = 255;
-static const unsigned char FILL_B = 255;
-static const unsigned char FILL_A = 200;
+extern const unsigned char FILL_R;
+extern const unsigned char FILL_G;
+extern const unsigned char FILL_B;
+extern const unsigned char FILL_A;
 
-static const int DIRECTION_X = 1;
-static const int DIRECTION_Y = 1;
+extern const int DIRECTION_X;
+extern const int DIRECTION_Y;
 
-
-static const float DELAY = 50;
+extern const float DELAY;

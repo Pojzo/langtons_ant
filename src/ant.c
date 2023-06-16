@@ -144,6 +144,7 @@ void ant_move_forward(ant_t *ant) {
 }
 
 
+// free all allocated memory
 static void free_all(SDL_Window *window, SDL_Renderer *renderer, ant_t *ant) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
