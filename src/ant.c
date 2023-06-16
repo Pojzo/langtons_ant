@@ -1,10 +1,17 @@
 #include <stdio.h>
+#include <stdbool.h>
+
 #include "ant.h"
 #include "pair.h"
 
 static int QUIT = 0;
+static int PAUSED = 0;
 static const int transformations_x[] = {0, 1, 0, -1};
 static const int transformations_y[] = {-1, 0, 1, 0};
+
+unsigned int number_of_steps;
+
+static bool KEYS[322];
 
 // constructor for ant
 ant_t *ant_create(grid_t *grid) {
@@ -152,62 +159,96 @@ static void free_all(SDL_Window *window, SDL_Renderer *renderer, ant_t *ant) {
     SDL_Quit();
 }
 
-// returns true if user has pressed quit button
-static int handle_quit() {
+static void handle_events() {
     SDL_Event evt;
-    while(SDL_PollEvent(&evt) != 0) {
-        switch (evt.type) {
-            case SDL_QUIT:    
-                return 1;
+    while (SDL_PollEvent(&evt) != 0)
+    {
+        switch (evt.type)
+        {
+        case SDL_QUIT:
+            QUIT = 1;
+            break;
+        case SDL_KEYDOWN:
+            PAUSED = !PAUSED;
+            break;
         }
     }
-    return 0;
 }
 
 // update screen and handle quitting
-static void update(SDL_Renderer *renderer, ant_t *ant) {
+static void update(SDL_Renderer *renderer, ant_t *ant)
+{
     int delay = 10;
-    grid_draw(renderer, ant->grid); // draw grid 
-    SDL_RenderPresent(renderer); // render grid
-    SDL_Delay(delay); // wait for 500 miliseconds, before continuing to next frame
-    if (handle_quit()) { // check if user pressed quit button
-        delay = 1000000;
-        QUIT = 1;
-        printf("Terminating program\n");
-        return;
+    grid_draw(renderer, ant->grid); // draw grid
+    SDL_RenderPresent(renderer);    // render grid
+    SDL_Delay(delay);               // wait for 500 miliseconds, before continuing to next frame
+    if (KEYS[SDLK_SPACE]) {
+        printf("Space has been pressed\n");
+        KEYS[SDLK_SPACE] = !KEYS[SDLK_SPACE];
     }
 }
 
 // run simulation of langtons ant
-static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations) {
-    for (int i = 0; i < iterations && !QUIT; i++) {
-        if (grid_get(ant->grid, ant->pos_x, ant->pos_y) == 0) {
-            ant_turn_left(ant); 
+static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations)
+{
+    int i;
+    for (i = 0; i < iterations; i++)
+    {
+        if (QUIT)
+            return;
+        
+
+        if (grid_get(ant->grid, ant->pos_x, ant->pos_y) == 0)
+        {
+            ant_turn_left(ant);
         }
-        else {
+        else
+        {
             ant_turn_right(ant);
         }
         grid_flip_color(ant->grid, ant->pos_x, ant->pos_y);
         ant_move_forward(ant);
 
         refresh_screen(renderer);
+        while (PAUSED) {
+            handle_events();
+            if (QUIT) {
+                break;
+            }
+        }
+        handle_events();
         update(renderer, ant);
+    }
+    printf("Ending the simulation after %d steps\n", i);
+}
+
+// reset all keys to false, which means not pressed
+static void reset_keys()
+{
+    for (int i = 0; i < 322; i++)
+    {
+        KEYS[i] = false;
     }
 }
 
 // initialize window and renderer and run simulation for given number of iterations
-void run_simulation(ant_t *ant, int iterations) {
-    SDL_Window *window = NULL; 
+void run_simulation(ant_t *ant, int iterations)
+{
+    reset_keys();
+    number_of_steps = 0;
+    SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
     window = init_window(); // initialize SDL_Window
-    if (window == NULL) { // check if window initialization failed
+    if (window == NULL)
+    { // check if window initialization failed
         fprintf(stderr, "[ERROR] Could not initialize window\n");
         free_all(window, renderer, ant);
         return;
     }
     renderer = init_renderer(window); // initialized SDL_Renderer
-    if (renderer == NULL) { // check if renderer initialization failed
+    if (renderer == NULL)
+    { // check if renderer initialization failed
         fprintf(stderr, "[ERROR] Could not initialize renderer\n");
         free_all(window, renderer, ant);
         return;

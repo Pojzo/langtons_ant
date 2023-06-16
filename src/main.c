@@ -49,8 +49,7 @@ int main(int argc, char *argv[])
     unsigned int grid_width;
     unsigned int grid_height;
 
-    if (parse_args(&grid_width, &grid_height, argc, argv))
-    {
+    if (parse_args(&grid_width, &grid_height, argc, argv)) {
         printf("Failed to parse args, defaulting to grid_width: %d, grid_height: %d\n", (int)grid_width, (int)grid_height);
     }
 
