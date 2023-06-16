@@ -150,10 +150,6 @@ void grid_draw(SDL_Renderer *renderer, grid_t *grid) {
     }
 
     SDL_Rect r = rect_create(grid->w, grid->h);
-    if (!(grid->redraw)) {
-                
-        return;
-    }
     for (unsigned i = 0; i < grid->w; i++) {
         for (unsigned j = 0; j < grid->h; j++) {
             if (grid_get(grid, i, j) == 0) {
