@@ -5,7 +5,7 @@
 #include "config.h"
 
 // number of iterations to run the simulation for
-static const int iterations = 2000;
+static const int iterations = 5000;
 
 // returns true if a given string is a number, can be both positive and negative
 inline static bool is_number(char* string) {

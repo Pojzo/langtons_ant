@@ -178,10 +178,9 @@ static void handle_events() {
 // update screen and handle quitting
 static void update(SDL_Renderer *renderer, ant_t *ant)
 {
-    int delay = 10;
     grid_draw(renderer, ant->grid); // draw grid
     SDL_RenderPresent(renderer);    // render grid
-    SDL_Delay(delay);               // wait for 500 miliseconds, before continuing to next frame
+    SDL_Delay(DELAY);               
     if (KEYS[SDLK_SPACE]) {
         printf("Space has been pressed\n");
         KEYS[SDLK_SPACE] = !KEYS[SDLK_SPACE];
@@ -191,13 +190,16 @@ static void update(SDL_Renderer *renderer, ant_t *ant)
 // run simulation of langtons ant
 static void simulate(SDL_Renderer *renderer, ant_t *ant, int iterations)
 {
+    // SDL_RenderPresent(renderer);
+    // grid_draw(renderer, ant->grid);
+
+    ant->grid->redraw = false;
     int i;
     for (i = 0; i < iterations; i++)
     {
         if (QUIT)
             return;
         
-
         if (grid_get(ant->grid, ant->pos_x, ant->pos_y) == 0)
         {
             ant_turn_left(ant);

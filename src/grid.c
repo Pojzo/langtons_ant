@@ -47,6 +47,10 @@ grid_t *grid_create(unsigned w_, unsigned h_) {
     }
     grid->w = w_;
     grid->h = h_;
+    grid->change_x = -1;
+    grid->change_y = -1;
+    grid->redraw = true; // if redraw is set to true, the whole maze is drawn, otherwise only the change_x and change_y
+                         // squars
     grid->state = (int *) malloc(sizeof(int) * grid->w * grid->h);
     memset(grid->state, 0, (grid->w * grid->h) * sizeof(int));
 
@@ -144,8 +148,12 @@ void grid_draw(SDL_Renderer *renderer, grid_t *grid) {
     if (!grid_initialized(grid)) {
         grid_null_error();
     }
-    SDL_Rect r = rect_create(grid->w, grid->h);
 
+    SDL_Rect r = rect_create(grid->w, grid->h);
+    if (!(grid->redraw)) {
+                
+        return;
+    }
     for (unsigned i = 0; i < grid->w; i++) {
         for (unsigned j = 0; j < grid->h; j++) {
             if (grid_get(grid, i, j) == 0) {

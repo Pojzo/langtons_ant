@@ -30,4 +30,4 @@ const unsigned char FILL_A = 200;
 const int DIRECTION_X = 1;
 const int DIRECTION_Y = 1;
                                              
-const float DELAY = 50;
+const float DELAY = 0;

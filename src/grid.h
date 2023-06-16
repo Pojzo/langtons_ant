@@ -1,11 +1,15 @@
 #ifndef GRID_H
 #define GRID_H
 #include "SDL2/SDL.h"
+#include <stdbool.h>
 
 typedef struct Grid {
     int *state;  // matrix for storing tile states
     unsigned w; // width of grid
     unsigned h; // height of grid
+    unsigned change_x; // x coordinate of the tile to be inverted
+    unsigned change_y; // y coordinate of the tile to be inverted
+    bool redraw;
 } grid_t;
 
 
