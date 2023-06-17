@@ -25,6 +25,11 @@ extern const unsigned char FILL_G;
 extern const unsigned char FILL_B;
 extern const unsigned char FILL_A;
 
+extern const unsigned char FILL_ANT_R;
+extern const unsigned char FILL_ANT_G;
+extern const unsigned char FILL_ANT_B;
+extern const unsigned char FILL_ANT_A;
+
 extern const int DIRECTION_X;
 extern const int DIRECTION_Y;
 

@@ -143,25 +143,30 @@ void grid_flip_color(grid_t *grid, unsigned x, unsigned y) {
 }
 
 // draw grid to SDL_Renderer
-void grid_draw(SDL_Renderer *renderer, grid_t *grid) {
+void grid_draw(SDL_Renderer *renderer, grid_t *grid, unsigned ant_x, unsigned ant_y) {
     srand(time(NULL));
     if (!grid_initialized(grid)) {
         grid_null_error();
     }
 
+    (void) ant_x;
+    (void) ant_y;
     SDL_Rect r = rect_create(grid->w, grid->h);
-    for (unsigned i = 0; i < grid->w; i++) {
-        for (unsigned j = 0; j < grid->h; j++) {
-            if (grid_get(grid, i, j) == 0) {
-                // SDL_SetRenderDrawColor(renderer, BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
+    for (unsigned i = 0; i < grid->h; i++) {
+        for (unsigned j = 0; j < grid->w; j++) {
+                        if (grid_get(grid, i, j) == 0) {
                 SDL_SetRenderDrawColor(renderer, BORDER_R, BORDER_G, BORDER_B, BORDER_A);
-                //SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, rand() % 255);
                 SDL_RenderDrawRect(renderer, &r);
             }
             else {
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
                 SDL_RenderFillRect(renderer, &r);
             }
+            if (i == ant_x && j == ant_y) {
+                SDL_SetRenderDrawColor(renderer, FILL_ANT_R, FILL_ANT_G, FILL_ANT_B, FILL_ANT_A);
+                SDL_RenderFillRect(renderer, &r);
+            }
+
             r.x += r.w;
         }
         r.x = 0;

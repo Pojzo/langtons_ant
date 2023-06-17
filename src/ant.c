@@ -178,7 +178,7 @@ static void handle_events() {
 // update screen and handle quitting
 static void update(SDL_Renderer *renderer, ant_t *ant)
 {
-    grid_draw(renderer, ant->grid); // draw grid
+    grid_draw(renderer, ant->grid, ant->pos_x, ant->pos_y); // draw grid
     SDL_RenderPresent(renderer);    // render grid
     SDL_Delay(DELAY);               
     if (KEYS[SDLK_SPACE]) {
